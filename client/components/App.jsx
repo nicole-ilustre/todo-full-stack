@@ -1,21 +1,32 @@
 import React from 'react'
-import AddTodo from './AddTodo'
+import { connect } from 'react-redux'
+import { HashRouter as Router, Route } from 'react-router-dom'
+import { fetchTodos } from '../actions'
+import Main from './Main'
 
 class App extends React.Component {
-  componentDidMount () {}
+  componentDidMount () {
+    this.props.dispatch(fetchTodos())
+  }
 
   render () {
     return (
-      <>
-        <header className="header">
-          <h1>todos</h1>
-          <AddTodo />
-        </header>
-        <section className="main"></section>
-        <footer className="footer"></footer>
-      </>
+      <Router>
+        <Route
+          path="/:filter?"
+          render={routeProps => {
+            const filter = routeProps.match.params.filter
+
+            return (
+              <>
+                <Main filter={filter} />
+              </>
+            )
+          }}
+        />
+      </Router>
     )
   }
 }
 
-export default App
+export default connect()(App)
