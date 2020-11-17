@@ -14,6 +14,7 @@ export function fetchTodos () {
     return getTodos()
       .then(todos => {
         dispatch(setTodos(todos))
+        return null
       })
   }
 }
@@ -23,6 +24,7 @@ export function createTodo (todo) {
     return addTodo(todo)
       .then(() => {
         dispatch(fetchTodos())
+        return null
       })
   }
 }
@@ -32,6 +34,7 @@ export function modifyTodo (id, todo) {
     return updateTodo(id, todo)
       .then(() => {
         dispatch(fetchTodos())
+        return null
       })
   }
 }
@@ -41,6 +44,7 @@ export function removeTodo (id) {
     return deleteTodo(id)
       .then(() => {
         dispatch(fetchTodos())
+        return null
       })
   }
 }
@@ -53,6 +57,7 @@ export function removeAllCompleted () {
     return Promise.all(ids.map(id => deleteTodo(id)))
       .then(() => {
         dispatch(fetchTodos())
+        return null
       })
   }
 }

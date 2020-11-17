@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
     .getTodos()
     .then(todos => {
       res.json(todos)
+      return null
     })
     .catch(err => {
       console.log(err)
@@ -27,6 +28,7 @@ router.post('/', (req, res) => {
     .addTodo(todo)
     .then(() => {
       res.json({})
+      return null
     })
     .catch(err => {
       console.log(err)
@@ -46,6 +48,7 @@ router.patch('/:id', (req, res) => {
     .updateTodo(id, todo)
     .then(() => {
       res.json({})
+      return null
     })
     .catch(err => {
       console.log(err)
@@ -60,6 +63,7 @@ router.delete('/:id', (req, res) => {
     .deleteTodo(id)
     .then(() => {
       res.json({})
+      return null
     })
     .catch(err => {
       console.log(err)
