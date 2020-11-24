@@ -15,5 +15,5 @@ export function getTodos () {
 
 export function deleteTodo (id) {
   return request
-    .delete('/api/v1/tasks/' + id)
+    .delete('/api/v1/todos/' + id)
 }

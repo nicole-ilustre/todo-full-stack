@@ -44,7 +44,7 @@ describe('getTodos', () => {
 describe('deleteTodo', () => {
   test('sends delete request to api', () => {
     const scope = nock('http://localhost')
-      .delete('/api/v1/tasks/23')
+      .delete('/api/v1/todos/23')
       .reply(200, {})
     expect.assertions(1)
     return deleteTodo(23)
