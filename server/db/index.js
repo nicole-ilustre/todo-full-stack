@@ -15,7 +15,12 @@ function getTodos (db = database) {
   return db('todos').select()
 }
 
+function deleteTodo (id, db = database) {
+  return db('todos').where({ id }).delete()
+}
+
 module.exports = {
   saveTodo,
-  getTodos
+  getTodos,
+  deleteTodo
 }

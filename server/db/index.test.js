@@ -2,7 +2,7 @@ const knex = require('knex')
 const config = require('./knexfile')
 const connection = knex(config.test)
 
-const { saveTodo, getTodos } = require('./')
+const { saveTodo, getTodos, deleteTodo } = require('./')
 
 beforeAll(() => connection.migrate.latest())
 beforeEach(() => connection.seed.run())
@@ -44,5 +44,17 @@ describe('getTodos', () => {
       expect(todos[0].task).toEqual('make some hay')
       return null
     })
+  })
+})
+
+describe('deleteTodo', () => {
+  test('deletes todo from db', () => {
+    expect.assertions(1)
+    return deleteTodo(2, connection)
+      .then(() => getTodos(connection))
+      .then(todos => {
+        expect(todos.map(todo => todo.id)).toEqual([1, 3])
+        return null
+      })
   })
 })
