@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { deleteTodo } from '../actions'
+import { removeTodo } from '../actions'
 
 const Todo = ({ todo, dispatch }) => {
   const handleClick = (e) => {
-    dispatch(deleteTodo(todo.id))
+    dispatch(removeTodo(todo.id))
   }
   const className = todo.completed ? 'completed' : ''
   return (

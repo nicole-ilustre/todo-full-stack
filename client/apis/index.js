@@ -12,3 +12,6 @@ export function getTodos () {
     .get('/api/v1/todos')
     .then(response => response.body)
 }
+
+export function deleteTodo () {
+}

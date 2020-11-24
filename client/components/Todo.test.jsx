@@ -3,11 +3,11 @@ import { Provider } from 'react-redux'
 import { screen, render, fireEvent } from '@testing-library/react'
 
 import Todo from './Todo'
-import { deleteTodo } from '../actions'
+import { removeTodo } from '../actions'
 import { fakeStore } from '../testHelpers'
 
 jest.mock('../actions', () => ({
-  deleteTodo: jest.fn()
+  removeTodo: jest.fn()
 }))
 
 describe('<Todo />', () => {
@@ -39,11 +39,11 @@ describe('<Todo />', () => {
     expect(label).not.toBeUndefined()
   })
 
-  test('dispatches deleteTodo action when delete button clicked', async () => {
+  test('dispatches removeTodo action when delete button clicked', async () => {
     render(<Provider store={fakeStore}><Todo todo={todo} /></Provider>)
     const button = await screen.getByRole('button')
     fireEvent.click(button)
     expect(fakeStore.dispatch).toHaveBeenCalled()
-    expect(deleteTodo).toHaveBeenCalledWith(todo.id)
+    expect(removeTodo).toHaveBeenCalledWith(todo.id)
   })
 })
