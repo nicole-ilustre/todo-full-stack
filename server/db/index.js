@@ -11,6 +11,11 @@ function saveTodo (task, db = database) {
     })
 }
 
+function getTodos (db = database) {
+  return db('todos').select()
+}
+
 module.exports = {
-  saveTodo
+  saveTodo,
+  getTodos
 }

@@ -2,12 +2,12 @@ const knex = require('knex')
 const config = require('./knexfile')
 const connection = knex(config.test)
 
-const { saveTodo } = require('./')
+const { saveTodo, getTodos } = require('./')
+
+beforeAll(() => connection.migrate.latest())
+beforeEach(() => connection.seed.run())
 
 describe('saveTodo', () => {
-  beforeAll(() => connection.migrate.latest())
-  beforeEach(() => connection.seed.run())
-
   test('saves todo into database', () => {
     expect.assertions(2)
     const task = 'new task'
@@ -34,5 +34,15 @@ describe('saveTodo', () => {
         })
         return null
       })
+  })
+})
+
+describe('getTodos', () => {
+  test('gets todos from database', () => {
+    return getTodos(connection).then(todos => {
+      expect(todos).toHaveLength(3)
+      expect(todos[0].task).toEqual('make some hay')
+      return null
+    })
   })
 })
