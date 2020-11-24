@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { saveTodo } = require('../db/connection')
+const { saveTodo } = require('../db')
 
 router.post('/', (req, res) => {
   saveTodo(req.body.task)

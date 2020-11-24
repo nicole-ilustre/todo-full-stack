@@ -1,6 +1,6 @@
 import request from 'supertest'
 import server from './server'
-import { saveTodo } from './db/connection'
+import { saveTodo } from './db'
 
 const fakeTodo = {
   id: 1,
@@ -8,7 +8,7 @@ const fakeTodo = {
   priority: null,
   completed: false
 }
-jest.mock('./db/connection', () => ({
+jest.mock('./db', () => ({
   saveTodo: jest.fn(() => Promise.resolve(fakeTodo))
 }))
 
