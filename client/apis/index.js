@@ -6,3 +6,7 @@ export function postTodo (task) {
     .send({ task })
     .then(response => response.body)
 }
+
+export function fetchTodos () {
+
+}
