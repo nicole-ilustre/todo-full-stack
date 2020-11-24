@@ -4,10 +4,9 @@ import { render, screen } from '@testing-library/react'
 
 import Todos from './Todos'
 
-import { fetchTodos } from '../apis'
-const fakeAction = { type: 'FETCH_TODOS' }
-jest.mock('../apis', () => ({
-  fetchTodos: jest.fn(() => fakeAction)
+import { fetchTodos } from '../actions'
+jest.mock('../actions', () => ({
+  fetchTodos: jest.fn()
 }))
 
 const store = {
@@ -32,7 +31,7 @@ describe('<Todos />', () => {
   })
   test('loads todos from api on intial mount', () => {
     render(<Provider store={store}><Todos /></Provider>)
-    expect(store.dispatch).toHaveBeenCalledWith(fakeAction)
+    expect(store.dispatch).toHaveBeenCalled()
     expect(fetchTodos).toHaveBeenCalled()
   })
 })

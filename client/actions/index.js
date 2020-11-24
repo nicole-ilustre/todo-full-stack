@@ -27,3 +27,7 @@ export function saveTodo (task) {
       })
   }
 }
+
+export function fetchTodos () {
+
+}

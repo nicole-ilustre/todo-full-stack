@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Todo from './Todo'
-import { fetchTodos } from '../apis'
+import { fetchTodos } from '../actions'
 
 class Todos extends React.Component {
   componentDidMount () {
