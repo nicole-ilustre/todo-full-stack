@@ -8,5 +8,7 @@ export function postTodo (task) {
 }
 
 export function fetchTodos () {
-
+  return request
+    .get('/api/v1/todos')
+    .then(response => response.body)
 }
