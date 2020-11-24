@@ -10,7 +10,7 @@ describe('postTodo', () => {
     completed: false
   }
   const scope = nock('http://localhost')
-    .post('/api/v1/todos', task)
+    .post('/api/v1/todos', { task })
     .reply(201, createdTodo)
 
   test('posts new todo to api', () => {
