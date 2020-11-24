@@ -1,10 +1,11 @@
 import request from 'supertest'
 import server from './server'
-import { saveTodo, getTodos } from './db'
+import { saveTodo, getTodos, deleteTodo } from './db'
 
 jest.mock('./db', () => ({
   saveTodo: jest.fn(),
-  getTodos: jest.fn()
+  getTodos: jest.fn(),
+  deleteTodo: jest.fn()
 }))
 
 let promise
@@ -98,3 +99,33 @@ describe('GET /api/v1/todos', () => {
     })
   })
 })
+
+describe('DELETE /api/v1/todos/:id', () => {
+  test('returns 400 error if id not good', () => {
+    expect.assertions(3)
+    const badIds = ['0', '-23', 'bananas']
+    const promises = badIds.map(id => expectDeleteStatusForId(id, 400))
+    return Promise.all(promises)
+  })
+  test('return 200 if delete happens', () => {
+    deleteTodo.mockImplementation(() => Promise.resolve())
+    expect.assertions(1)
+    return expectDeleteStatusForId(23, 200)
+  })
+
+  test('return 500 if delete blows up', () => {
+    const err = new Error('reasons')
+    deleteTodo.mockImplementation(() => Promise.reject(err))
+    expect.assertions(1)
+    return expectDeleteStatusForId(23, 500)
+  })
+})
+
+function expectDeleteStatusForId (id, status) {
+  return request(server)
+    .delete('/api/v1/todos/' + id)
+    .then((res) => {
+      expect(res.status).toBe(status)
+      return null
+    })
+}

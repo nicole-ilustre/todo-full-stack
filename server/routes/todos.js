@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { saveTodo, getTodos } = require('../db')
+const { saveTodo, getTodos, deleteTodo } = require('../db')
 
 router.post('/', (req, res) => {
   saveTodo(req.body.task)
@@ -12,6 +12,14 @@ router.post('/', (req, res) => {
 router.get('/', (req, res) => {
   getTodos()
     .then(todos => res.json(todos))
+    .catch(() => res.sendStatus(500))
+})
+
+router.delete('/:id', (req, res) => {
+  const id = Number(req.params.id)
+  if (id < 1 || isNaN(id)) return res.sendStatus(400)
+  deleteTodo(id)
+    .then(() => res.sendStatus(200))
     .catch(() => res.sendStatus(500))
 })
 
