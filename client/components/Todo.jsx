@@ -1,17 +1,22 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { deleteTodo } from '../actions'
 
-const Todo = ({ todo }) => {
+const Todo = ({ todo, dispatch }) => {
+  const handleClick = (e) => {
+    dispatch(deleteTodo(todo.id))
+  }
   const className = todo.completed ? 'completed' : ''
   return (
     <li className={className}>
       <div className="view">
         <input className="toggle" type="checkbox" />
         <label>{todo.task}</label>
-        <button className="destroy"></button>
+        <button onClick={handleClick} className="destroy"></button>
       </div>
       {/* <input className="edit" value="Create a TodoMVC template" /> */}
     </li>
   )
 }
 
-export default Todo
+export default connect()(Todo)

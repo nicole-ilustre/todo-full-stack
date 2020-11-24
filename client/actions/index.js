@@ -47,3 +47,7 @@ export function fetchTodos () {
       })
   }
 }
+
+export function deleteTodo (id) {
+
+}
