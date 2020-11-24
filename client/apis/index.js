@@ -13,5 +13,7 @@ export function getTodos () {
     .then(response => response.body)
 }
 
-export function deleteTodo () {
+export function deleteTodo (id) {
+  return request
+    .delete('/api/v1/tasks/' + id)
 }
