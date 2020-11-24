@@ -1,5 +1,5 @@
 import todos from './todos'
-import { addTodo, setTodos } from '../actions'
+import { addTodo, setTodos, createDeleteTodo } from '../actions'
 
 describe('todos reducer', () => {
   test('initial state is an empty array', () => {
@@ -15,11 +15,19 @@ describe('todos reducer', () => {
     expect(state[0]).toEqual(fakeTodo)
   })
 
-  test('SET_TODO overwrotes todos in the state', () => {
+  test('SET_TODO overwrites todos in the state', () => {
     const initialTodos = [{ task: 'pen' }, { task: 'pineapple' }]
     const newTodos = [{ task: 'apple' }, { task: 'pen' }]
     const action = setTodos(newTodos)
     const state = todos(initialTodos, action)
     expect(state).toEqual(newTodos)
+  })
+
+  test('DELETE_TODO removes todo with matching id from state', () => {
+    const initialTodos = [{ id: 1, task: 'pen' }, { id: 2, task: 'pineapple' }]
+    const action = createDeleteTodo(1)
+    const state = todos(initialTodos, action)
+    expect(state).toHaveLength(1)
+    expect(state[0].id).toBe(2)
   })
 })
