@@ -1,29 +1,29 @@
-import {postTodo} from '../apis'
+import { postTodo } from '../apis'
 export const ADD_TODO = 'ADD_TODO'
 export const SET_ERROR = 'SET_ERROR'
 
-function addTodo(todo) {
+function addTodo (todo) {
   return {
     type: ADD_TODO,
     todo: todo
   }
 }
 
-function setError(message) {
+function setError (message) {
   return {
     type: SET_ERROR,
     message
   }
 }
 
-export function saveTodo(task) {
-  return (dispatch => {
+export function saveTodo (task) {
+  return dispatch => {
     postTodo(task)
       .then((newTodo) => {
-        dispatch(addTodo(newTodo)) 
+        return dispatch(addTodo(newTodo))
       })
       .catch(err => {
-        dispatch(setError(err))
+        return dispatch(setError(err))
       })
-  }) 
+  }
 }
