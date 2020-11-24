@@ -1,5 +1,5 @@
 import nock from 'nock'
-import { postTodo, fetchTodos } from './'
+import { postTodo, getTodos } from './'
 
 describe('postTodo', () => {
   const task = 'new todo'
@@ -25,7 +25,7 @@ describe('postTodo', () => {
   })
 })
 
-describe('fetchTodos', () => {
+describe('getTodos', () => {
   const fakeTodos = [{ task: 'do thing' }, { task: 'do another thing' }]
   const scope = nock('http://localhost')
     .get('/api/v1/todos')
@@ -33,7 +33,7 @@ describe('fetchTodos', () => {
 
   test('returns todos from api', () => {
     expect.assertions(2)
-    return fetchTodos().then(todos => {
+    return getTodos().then(todos => {
       expect(todos).toEqual(fakeTodos)
       expect(scope.isDone()).toBe(true)
       return null

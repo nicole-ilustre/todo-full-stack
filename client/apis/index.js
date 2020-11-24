@@ -7,7 +7,7 @@ export function postTodo (task) {
     .then(response => response.body)
 }
 
-export function fetchTodos () {
+export function getTodos () {
   return request
     .get('/api/v1/todos')
     .then(response => response.body)

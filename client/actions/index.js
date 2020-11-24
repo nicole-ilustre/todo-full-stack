@@ -1,6 +1,7 @@
-import { postTodo } from '../apis'
+import { postTodo, getTodos } from '../apis'
 export const ADD_TODO = 'ADD_TODO'
 export const SET_ERROR = 'SET_ERROR'
+export const SET_TODOS = 'SET_TODOS'
 
 export function addTodo (todo) {
   return {
@@ -13,6 +14,13 @@ function setError (message) {
   return {
     type: SET_ERROR,
     message
+  }
+}
+
+function setTodos (todos) {
+  return {
+    type: SET_TODOS,
+    todos
   }
 }
 
@@ -29,5 +37,13 @@ export function saveTodo (task) {
 }
 
 export function fetchTodos () {
-
+  return dispatch => {
+    getTodos()
+      .then(todos => {
+        return dispatch(setTodos(todos))
+      })
+      .catch(err => {
+        return dispatch(setError(err))
+      })
+  }
 }
