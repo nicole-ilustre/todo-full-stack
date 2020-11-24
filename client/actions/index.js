@@ -2,7 +2,7 @@ import { postTodo } from '../apis'
 export const ADD_TODO = 'ADD_TODO'
 export const SET_ERROR = 'SET_ERROR'
 
-function addTodo (todo) {
+export function addTodo (todo) {
   return {
     type: ADD_TODO,
     todo: todo
