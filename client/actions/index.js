@@ -17,7 +17,7 @@ function setError (message) {
   }
 }
 
-function setTodos (todos) {
+export function setTodos (todos) {
   return {
     type: SET_TODOS,
     todos
