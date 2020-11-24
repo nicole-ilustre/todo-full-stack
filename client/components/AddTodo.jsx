@@ -11,10 +11,10 @@ class AddTodo extends React.Component {
   }
 
   handleSubmit = (e) => {
+    e.preventDefault()
     let action = saveTodo(this.state.task)
     this.props.dispatch(action)
     this.setState({task: ''})
-    e.preventDefault()
   }
 
   render() {
