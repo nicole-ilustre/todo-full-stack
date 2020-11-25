@@ -1,5 +1,5 @@
 import nock from 'nock'
-import { postTodo, getTodos, deleteTodo } from './'
+import { postTodo, getTodos, deleteTodo, patchTodo } from './'
 
 describe('postTodo', () => {
   const task = 'new todo'
@@ -53,5 +53,22 @@ describe('deleteTodo', () => {
         return null
       })
       .catch(console.log)
+  })
+})
+
+describe('patchTodo', () => {
+  test('sends patch to api', () => {
+    const fakeTodo = { id: 23, task: 'stuff', completed: true }
+    const scope = nock('http://localhost')
+      .patch('/api/v1/todos/23', { completed: true })
+      .reply(200, fakeTodo)
+
+    expect.assertions(2)
+    return patchTodo(fakeTodo.id, { completed: true })
+      .then((todo) => {
+        expect(scope.isDone()).toBe(true)
+        expect(todo).toEqual(fakeTodo)
+        return null
+      })
   })
 })

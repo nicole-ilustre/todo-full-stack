@@ -19,5 +19,8 @@ export function deleteTodo (id) {
 }
 
 export function patchTodo (id, patchData) {
-
+  return request
+    .patch('/api/v1/todos/' + id)
+    .send(patchData)
+    .then(res => res.body)
 }
