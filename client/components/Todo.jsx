@@ -1,8 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { removeTodo } from '../actions'
+import { removeTodo, updateTodo } from '../actions'
 
 const Todo = ({ todo, dispatch }) => {
+  const handleCheck = (e) => {
+    dispatch(updateTodo(todo.id, { completed: e.target.checked }))
+  }
   const handleClick = (e) => {
     dispatch(removeTodo(todo.id))
   }
@@ -10,7 +13,7 @@ const Todo = ({ todo, dispatch }) => {
   return (
     <li className={className}>
       <div className="view">
-        <input className="toggle" type="checkbox" />
+        <input onChange={handleCheck} className="toggle" type="checkbox" />
         <label>{todo.task}</label>
         <button onClick={handleClick} className="destroy"></button>
       </div>

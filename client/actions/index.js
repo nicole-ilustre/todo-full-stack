@@ -43,3 +43,7 @@ export function removeTodo (id) {
       .catch(err => dispatch(setError(err)))
   }
 }
+
+export function updateTodo (id, patchData) {
+
+}
