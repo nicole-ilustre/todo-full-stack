@@ -19,8 +19,15 @@ function deleteTodo (id, db = database) {
   return db('todos').where({ id }).delete()
 }
 
+function updateTodo (id, newData, db = database) {
+  return db('todos').where({ id }).update(newData)
+    .then(() => findTodo(id, db))
+}
+
 module.exports = {
+  findTodo,
   saveTodo,
   getTodos,
-  deleteTodo
+  deleteTodo,
+  updateTodo
 }
