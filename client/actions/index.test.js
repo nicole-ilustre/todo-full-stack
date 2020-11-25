@@ -1,14 +1,15 @@
 import {
-  saveTodo, fetchTodos, removeTodo,
-  ADD_TODO, SET_ERROR, SET_TODOS, DELETE_TODO
+  saveTodo, fetchTodos, removeTodo, updateTodo,
+  ADD_TODO, SET_ERROR, SET_TODOS, SET_TODO, DELETE_TODO
 } from './index'
 
-import { postTodo, getTodos, deleteTodo } from '../apis'
+import { postTodo, getTodos, deleteTodo, patchTodo } from '../apis'
 
 jest.mock('../apis', () => ({
   postTodo: jest.fn(),
   getTodos: jest.fn(),
-  deleteTodo: jest.fn()
+  deleteTodo: jest.fn(),
+  patchTodo: jest.fn()
 }))
 
 const fakeDispatch = jest.fn()
@@ -107,6 +108,38 @@ describe('removeTodo', () => {
     test('dispatches set error', () => {
       const action = fakeDispatch.mock.calls[0][0]
       expect(action.type).toEqual(SET_ERROR)
+    })
+  })
+})
+
+describe('updateTodo', () => {
+  describe('when api call successful', () => {
+    const fakeTodo = [{ id: 23, checked: true, task: 'stuff' }]
+    beforeAll(() => {
+      jest.clearAllMocks()
+      patchTodo.mockImplementation(() => Promise.resolve(fakeTodo))
+      updateTodo(23, { checked: true })(fakeDispatch)
+    })
+    test('call the patchTodo api function', () => {
+      expect(patchTodo.mock.calls[0][0]).toBe(23)
+      expect(patchTodo.mock.calls[0][1]).toEqual({ checked: true })
+    })
+    test('dispatch the setTodo action', () => {
+      const action = fakeDispatch.mock.calls[0][0]
+      expect(action.type).toBe(SET_TODO)
+      expect(action.todo).toEqual(fakeTodo)
+    })
+  })
+  describe('when api error', () => {
+    beforeAll(() => {
+      jest.clearAllMocks()
+      const err = new Error('linter made me do it')
+      patchTodo.mockImplementation(() => Promise.reject(err))
+      updateTodo(23, { checked: true })(fakeDispatch)
+    })
+    test('dispatch the set error action', () => {
+      const action = fakeDispatch.mock.calls[0][0]
+      expect(action.type).toBe(SET_ERROR)
     })
   })
 })
