@@ -1,4 +1,4 @@
-import { ADD_TODO, SET_TODOS, DELETE_TODO } from '../actions'
+import { ADD_TODO, SET_TODOS, DELETE_TODO, SET_TODO } from '../actions'
 
 export default function todos (state = [], action) {
   switch (action.type) {
@@ -10,6 +10,9 @@ export default function todos (state = [], action) {
 
     case DELETE_TODO :
       return state.filter(todo => todo.id !== action.id)
+
+    case SET_TODO :
+      return state.map(todo => todo.id === action.todo.id ? action.todo : todo)
 
     default :
       return state
