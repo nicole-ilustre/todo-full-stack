@@ -1,11 +1,12 @@
 import request from 'supertest'
 import server from './server'
-import { saveTodo, getTodos, deleteTodo } from './db'
+import { saveTodo, getTodos, deleteTodo, updateTodo } from './db'
 
 jest.mock('./db', () => ({
   saveTodo: jest.fn(),
   getTodos: jest.fn(),
-  deleteTodo: jest.fn()
+  deleteTodo: jest.fn(),
+  updateTodo: jest.fn()
 }))
 
 let promise
@@ -118,6 +119,47 @@ describe('DELETE /api/v1/todos/:id', () => {
     deleteTodo.mockImplementation(() => Promise.reject(err))
     expect.assertions(1)
     return expectDeleteStatusForId(23, 500)
+  })
+})
+
+describe('PATCH /api/v1/todos/:id', () => {
+  const fakeTodo = [{ id: 23, task: 'do things', completed: true }]
+  beforeAll(() => {
+    updateTodo.mockImplementation(() => Promise.resolve(fakeTodo))
+    promise = request(server)
+      .patch('/api/v1/todos/23')
+      .send({ completed: true })
+  })
+
+  test('call update Todo db function', () => {
+    expect.assertions(2)
+    return promise.then((res) => {
+      expect(updateTodo.mock.calls[0][0]).toBe(23)
+      expect(updateTodo.mock.calls[0][1]).toEqual({ completed: true })
+      return null
+    })
+  })
+
+  test('return the whole todo', () => {
+    expect.assertions(2)
+    return promise.then((res) => {
+      expect(res.status).toBe(200)
+      expect(res.body).toEqual(fakeTodo)
+      return null
+    })
+  })
+
+  describe('when db call fails', () => {
+    test('returns 500', () => {
+      jest.clearAllMocks()
+      const err = new Error('no good')
+      updateTodo.mockImplementation(() => Promise.reject(err))
+      return request(server).patch('/api/v1/todos/23')
+        .then((res) => {
+          expect(res.status).toBe(500)
+          return null
+        })
+    })
   })
 })
 
