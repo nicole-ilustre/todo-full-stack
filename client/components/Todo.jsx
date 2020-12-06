@@ -1,85 +1,66 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { modifyTodo, removeTodo } from '../actions'
+import React, { useContext, useEffect, useState } from 'react'
+import { deleteTodo, updateTodo } from '../apis/todos'
+import { TodosContext } from './App'
 
-class Todo extends React.Component {
-  state = {
-    editing: false,
-    updatedTask: ''
+function Todo (props) {
+  const todo = props.todo
+  const { refreshTodos } = useContext(TodosContext)
+
+  const editInput = React.createRef()
+
+  const [editing, setEditing] = useState(false)
+  const [updatedTask, setUpdatedTask] = useState(false)
+
+  useEffect(() => {
+    setUpdatedTask(props.todo.task)
+  }, [props.todo.id])
+
+  useEffect(() => {
+    if (editing) editInput.current.focus()
+  }, [editing])
+
+  const handleTick = () => {
+    updateTodo(todo.id, { completed: !todo.completed })
+      .then(refreshTodos)
+      .catch(console.log)
   }
-
-  editInput = React.createRef()
-
-  componentDidMount () {
-    this.setState({ updatedTask: this.props.todo.task })
+  const handleDelete = () => {
+    deleteTodo(todo.id)
+      .then(refreshTodos)
+      .catch(console.log)
   }
-
-  componentDidUpdate (prevProps, prevState) {
-    if (prevState.editing !== this.state.editing && this.state.editing) {
-      this.editInput.current.focus()
-    }
-  }
-
-  setEditing = value => {
-    this.setState({ editing: value })
-  }
-
-  handleTick = () => {
-    const { todo } = this.props
-    this.props.dispatch(modifyTodo(todo.id, { task: todo.task, completed: !todo.completed }))
-  }
-
-  handleDelete = () => {
-    const { todo } = this.props
-    this.props.dispatch(removeTodo(todo.id))
-  }
-
-  handleChange = e => {
+  const handleSubmit = e => {
     e.preventDefault()
-
-    this.setState({ [e.target.name]: e.target.value })
+    updateTodo(todo.id, { task: updatedTask })
+      .then(refreshTodos)
+      .catch(console.log)
+    setEditing(false)
   }
 
-  handleSubmit = e => {
-    e.preventDefault()
+  return (
+    <li
+      className={[todo.completed ? 'completed' : '', editing ? 'editing' : ''].join(' ')}
+      onBlur={() => setEditing(false)}
+    >
+      <div className="view">
+        <input className="toggle" type="checkbox" checked={todo.completed} onChange={handleTick} />
+        <label onDoubleClick={() => setEditing(true)}>
+          {updatedTask}
+        </label>
+        <button className="destroy" onClick={handleDelete}></button>
+      </div>
 
-    this.props.dispatch(modifyTodo(this.props.todo.id, { task: this.state.updatedTask }))
-
-    this.setEditing(false)
-  }
-
-  render () {
-    const { todo } = this.props
-
-    return (
-      <li
-        className={[todo.completed ? 'completed' : '', this.state.editing ? 'editing' : ''].join(' ')}
-        onBlur={() => this.setEditing(false)}
-      >
-        <div className="view">
-          <input className="toggle" type="checkbox" checked={todo.completed} onChange={this.handleTick} />
-          <label
-            onDoubleClick={() => {
-              this.setEditing(true)
-            }}
-          >
-            {this.state.updatedTask}
-          </label>
-          <button className="destroy" onClick={this.handleDelete}></button>
-        </div>
-
-        <form onSubmit={this.handleSubmit}>
-          <input
-            className="edit"
-            name="updatedTask"
-            ref={this.editInput}
-            value={this.state.updatedTask}
-            onChange={this.handleChange}
-          />
-        </form>
-      </li>
-    )
-  }
+      <form onSubmit={handleSubmit}>
+        <input
+          className="edit"
+          name="updatedTask"
+          ref={editInput}
+          value={updatedTask}
+          onChange={event => setUpdatedTask(event.target.value)}
+        />
+      </form>
+    </li>
+  )
 }
 
-export default connect()(Todo)
+export default Todo

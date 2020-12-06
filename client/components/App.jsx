@@ -1,32 +1,44 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect, useState } from 'react'
 import { HashRouter as Router, Route } from 'react-router-dom'
-import { fetchTodos } from '../actions'
+import { getTodos } from '../apis/todos'
 import Main from './Main'
 
-class App extends React.Component {
-  componentDidMount () {
-    this.props.dispatch(fetchTodos())
+export const TodosContext = React.createContext([])
+
+function App () {
+  const [todos, setTodos] = useState([])
+
+  useEffect(() => {
+    refreshTodos()
+  }, [])
+
+  const refreshTodos = () => {
+    getTodos()
+      .then((allTodos) => {
+        setTodos(allTodos)
+        return null
+      })
+      .catch(console.log)
   }
 
-  render () {
-    return (
-      <Router>
-        <Route
-          path="/:filter?"
-          render={routeProps => {
-            const filter = routeProps.match.params.filter
+  return (
+    <Router>
+      <Route
+        path="/:filter?"
+        render={routeProps => {
+          const filter = routeProps.match.params.filter
 
-            return (
-              <>
+          return (
+            <>
+              <TodosContext.Provider value={{ todos: todos, refreshTodos: refreshTodos }}>
                 <Main filter={filter} />
-              </>
-            )
-          }}
-        />
-      </Router>
-    )
-  }
+              </TodosContext.Provider>
+            </>
+          )
+        }}
+      />
+    </Router>
+  )
 }
 
-export default connect()(App)
+export default App

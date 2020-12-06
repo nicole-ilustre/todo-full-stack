@@ -23,3 +23,7 @@ export function updateTodo (id, todo) {
 export function deleteTodo (id) {
   return request.delete(apiBase + '/' + id).then(res => res.body)
 }
+
+export function deleteAllTodos (ids) {
+  return Promise.all(ids.map(id => deleteTodo(id)))
+}

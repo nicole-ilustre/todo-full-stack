@@ -1,40 +1,40 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { createTodo } from '../actions'
+import React, { useContext, useState } from 'react'
+import { addTodo } from '../apis/todos'
+import { TodosContext } from './App'
 
-class AddTodo extends React.Component {
-  state = {
-    task: ''
+function AddTodo () {
+  const [todo, setTodo] = useState({ task: '' })
+  const { refreshTodos } = useContext(TodosContext)
+
+  const handleChange = (event) => {
+    setTodo({
+      ...todo,
+      [event.target.name]: event.target.value
+    })
   }
 
-  handleChange = e => {
-    e.preventDefault()
-
-    this.setState({ [e.target.name]: e.target.value })
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    if (todo.task) {
+      addTodo(todo)
+        .then(refreshTodos)
+        .catch(console.log)
+    }
+    setTodo({ task: '' })
   }
-
-  handleSubmit = e => {
-    e.preventDefault()
-
-    if (this.state.task) this.props.dispatch(createTodo({ task: this.state.task }))
-
-    this.setState({ task: '' })
-  }
-
-  render () {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          className="new-todo"
-          name="task"
-          value={this.state.task}
-          onChange={this.handleChange}
-          placeholder="What needs to be done?"
-          autoFocus={true}
-        />
-      </form>
-    )
-  }
+ 
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        className="new-todo"
+        name="task"
+        value={todo.task}
+        onChange={handleChange}
+        placeholder="What needs to be done?"
+        autoFocus={true}
+      />
+    </form>
+  )
 }
 
-export default connect()(AddTodo)
+export default AddTodo

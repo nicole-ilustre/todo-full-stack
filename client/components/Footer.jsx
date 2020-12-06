@@ -1,9 +1,18 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { removeAllCompleted } from '../actions'
+import { deleteAllTodos } from '../apis/todos'
+import { TodosContext } from './App'
 
 function Footer (props) {
+  const { todos, refreshTodos } = useContext(TodosContext)
+
+  const removeAllCompleted = () => {
+    const ids = todos.filter(todo => todo.completed).map(todo => todo.id)
+    deleteAllTodos(ids)
+      .then(refreshTodos)
+      .catch(console.log)
+  }
+
   return (
     <footer className="footer">
       <span className="todo-count">
@@ -29,7 +38,7 @@ function Footer (props) {
       </ul>
 
       {props.completedTodoCount > 0 && (
-        <button className="clear-completed" onClick={() => props.dispatch(removeAllCompleted())}>
+        <button className="clear-completed" onClick={() => removeAllCompleted()}>
           Clear completed
         </button>
       )}
@@ -37,4 +46,4 @@ function Footer (props) {
   )
 }
 
-export default connect()(Footer)
+export default Footer
