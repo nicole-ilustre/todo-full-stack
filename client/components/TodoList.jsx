@@ -1,22 +1,10 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 import TodoListItem from './TodoListItem'
 
-const testTodos = [
-  {
-    id: 1,
-    title: 'Taste JavaScript',
-    completed: true
-  },
-  {
-    id: 2,
-    title: 'Buy a unicorn',
-    completed: false
-  }
-]
-
-function TodoList (props) {
-  const todos = props.todos || testTodos
+function TodoList () {
+  const todos = useSelector((state) => state.todos)
   return (
     <>
       <ul className='todo-list'>
