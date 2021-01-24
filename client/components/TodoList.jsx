@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 import TodoListItem from './TodoListItem'
+import { fetchTodos } from '../apis/todos'
 
 function TodoList () {
+  useEffect(() => {
+    fetchTodos()
+  }, [])
+
   const todos = useSelector((state) => state.todos)
   return (
     <>

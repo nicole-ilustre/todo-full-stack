@@ -1,17 +1,12 @@
-const initialTodos = [
-  {
-    id: 1,
-    title: 'Taste JavaScript',
-    completed: true
-  },
-  {
-    id: 2,
-    title: 'Buy a unicorn',
-    completed: false
-  }
-]
+import { RECEIVED_TODOS } from '../actions/todos'
+
+const initialTodos = []
 
 function todos (state = initialTodos, action) {
+  switch (action.type) {
+    case RECEIVED_TODOS:
+      return action.todos
+  }
   return state
 }
 
