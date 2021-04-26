@@ -1,10 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import AddTodo from './AddTodo'
 
-function App () {
-  useEffect(() => {
+import { listTasks } from '../apis/apiClient'
 
+function App () {
+
+  const [tasks, setTasks] = useState([{}])
+
+  useEffect(() => {
+    listTasks()
+      .then(result => {
+        setTasks(result)
+        console.log(tasks)
+      })
   }, [])
+
+  console.log(tasks)
 
   return (
     <>
