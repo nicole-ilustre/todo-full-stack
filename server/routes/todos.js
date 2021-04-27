@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.update('/:id', (req, res) => {
+router.patch('/:id', (req, res) => {
   updateTodo(Number(req.params.id), req.body.update)
     .then((todo) => {
       res.sendStatus(200).json(todo)
