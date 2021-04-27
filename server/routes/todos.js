@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { addTodo, getTodos, getTodo, deleteTodo, updateTodo } = require('../db/db')
+const { addTodo, getTodos, deleteTodo, updateTodo } = require('../db/db')
 
 router.get('/', (req, res) => {
   getTodos()
@@ -39,8 +39,12 @@ router.update('/:id', (req, res) => {
     })
 })
 
-
-//deletetodo
-
+router.delete('/:id', (req, res) => {
+  const id = Number(req.params.id)
+  if (id < 1 || isNaN(id)) return res.sendStatus(400)
+  deleteTodo(id)
+    .then(() => res.sendStatus(200))
+    .catch(() => res.sendStatus(500))
+})
 
 module.exports = router
