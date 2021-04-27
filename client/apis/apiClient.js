@@ -7,3 +7,9 @@ export function listTasks () {
     .get(tasksUrl)
     .then(res => res.body)
 }
+
+export function addToTasks (task) {
+  return request
+    .post(tasksUrl)
+    .send(task)
+}

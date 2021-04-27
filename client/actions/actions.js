@@ -1,4 +1,4 @@
-import { listTasks } from '../apis/apiClient'
+import { listTasks, addToTasks } from '../apis/apiClient'
 
 export function getTasks (tasks) {
   return {
@@ -7,8 +7,34 @@ export function getTasks (tasks) {
   }
 }
 
+export function addTask (newTask) {
+  return {
+    type: 'ADD_TASK',
+    newTask: newTask
+  }
+}
+
+
+
 export function listAllTasks () {
   return (dispatch) => {
+    listTasks()
+    .then(results => {
+      dispatch(getTasks(results))
+      return null
+    })
+    .catch(err => {
+      console.log(err.message)
+    })
+  }
+}
+
+export function addNewTask (newTask) {
+  return (dispatch) => {
+    addToTasks(newTask)
+    .then(() => {
+      return null
+    })
     listTasks()
     .then(results => {
       dispatch(getTasks(results))
