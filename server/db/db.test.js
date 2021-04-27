@@ -24,3 +24,18 @@ describe('getAllTasks', () => {
   })
 
 })
+
+describe('addTask', () => {
+
+  test('function returns an id of the new task', () => {
+    const newTaskName = 'Changing Lightbulb'
+    const newTaskUrgency = 'urgent'
+    expect.assertions(1)
+    return addTask(newTaskName, newTaskUrgency, testDb)
+      .then(results => {
+        expect(results).toEqual(expect.arrayContaining([4]))
+        return null
+      })
+  })
+
+})
