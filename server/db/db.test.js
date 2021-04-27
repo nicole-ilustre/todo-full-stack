@@ -39,3 +39,18 @@ describe('addTask', () => {
   })
 
 })
+
+describe('deleteTask', () => {
+
+  test('function returns the number of tasks deleted', () => {
+    const taskId = 3
+    expect.assertions(2)
+    return deleteTask(taskId, testDb)
+      .then(results => {
+        expect(results).not.toBeGreaterThan(1)
+        expect(results).toEqual(1)
+        return null
+      })
+  })
+
+})
