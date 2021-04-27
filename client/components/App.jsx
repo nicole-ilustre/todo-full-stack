@@ -2,13 +2,37 @@ import React, { useEffect, useState } from 'react'
 import AddTodo from './AddTodo'
 import { connect } from 'react-redux'
 
+import { listAllTasks } from '../actions/actions'
+
 function App (props) {
 
   useEffect(() => {
-
+    props.dispatch(listAllTasks())
   }, [])
 
-  console.log(props)
+  const { tasks } = props
+
+  const listTheTasks = tasks.map(item => {
+    if (item.completed) {
+      return <li className="completed" key={item.id}>
+          <div className="view">
+            <input className="toggle" type="checkbox" checked />
+            <label>{item.name}</label>
+            <button className="destroy"></button>
+          </div>
+        <input className="edit" value="Create a TodoMVC template" />
+        </li>
+    } else {
+      return <li>
+          <div className="view" key={item.id}>
+            <input className="toggle" type="checkbox" />
+            <label>{item.name}</label>
+            <button className="destroy"></button>
+          </div>
+          <input className="edit" value="Rule the web" />
+        </li>
+    }
+  })
 
   return (
     <>
@@ -21,27 +45,9 @@ function App (props) {
 
       <section className="main">
         <input id="toggle-all" className="toggle-all" type="checkbox" />
-        <label for="toggle-all">Mark all as complete</label>
+        <label>Mark all as complete</label>
         <ul className="todo-list">
-
-          <li className="completed">
-            <div className="view">
-              <input className="toggle" type="checkbox" checked />
-              <label>Taste JavaScript</label>
-              <button className="destroy"></button>
-            </div>
-            <input className="edit" value="Create a TodoMVC template" />
-          </li>
-
-          <li>
-            <div className="view">
-              <input className="toggle" type="checkbox" />
-              <label>Buy a unicorn</label>
-              <button className="destroy"></button>
-            </div>
-            <input className="edit" value="Rule the web" />
-          </li>
-
+          {listTheTasks}
         </ul>
       </section>
 

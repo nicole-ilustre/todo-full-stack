@@ -8,15 +8,16 @@ export function getTasks (tasks) {
 }
 
 export function listAllTasks () {
-  listTasks()
-  .then(results => {
-    dispatch(getTasks(results))
-    return null
-  })
-  .catch(err => {
-    console.log(err.message)
-  })
-
+  return (dispatch) => {
+    listTasks()
+    .then(results => {
+      dispatch(getTasks(results))
+      return null
+    })
+    .catch(err => {
+      console.log(err.message)
+    })
+  }
 }
 
 
