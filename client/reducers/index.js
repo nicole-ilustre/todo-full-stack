@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-// import stuff from './stuff'
+import tasksReducer from './tasks'
 
 export default combineReducers({
-  // stuff
+  tasks:tasksReducer
 })

@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import AddTodo from './AddTodo'
+import { connect } from 'react-redux'
 
-import { listTasks } from '../apis/apiClient'
-
-function App () {
-
-  const [tasks, setTasks] = useState([{}])
+function App (props) {
 
   useEffect(() => {
-    listTasks()
-      .then(result => {
-        setTasks(result)
-        console.log(tasks)
-      })
+
   }, [])
 
-  console.log(tasks)
+  console.log(props)
 
   return (
     <>
@@ -29,4 +22,10 @@ function App () {
   )
 }
 
-export default App
+function mapStateToProps (state) {
+  return {
+    tasks: state.tasks
+  }
+}
+
+export default connect(mapStateToProps)(App)
