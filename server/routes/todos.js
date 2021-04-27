@@ -6,7 +6,7 @@ const { addTodo, getTodos, deleteTodo, updateTodo } = require('../db/db')
 router.get('/', (req, res) => {
   getTodos()
     .then((todos) => {
-      res.sendStatus(200).json(todos)
+      res.json(todos)
       return null
     })
     .catch((e) => {
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   addTodo(req.body.task)
     .then((todo) => {
-      res.sendStatus(201).json(todo)
+      res.status(201).json(todo)
       return null
     })
     .catch(e => {
@@ -28,9 +28,9 @@ router.post('/', (req, res) => {
 })
 
 router.patch('/:id', (req, res) => {
-  updateTodo(Number(req.params.id), req.body.update)
+  updateTodo(Number(req.params.id), req.body)
     .then((todo) => {
-      res.sendStatus(200).json(todo)
+      res.status(200).json(todo)
       return null
     })
     .catch(e => {
