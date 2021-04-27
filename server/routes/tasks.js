@@ -26,4 +26,16 @@ router.post('/', (req,res) => {
   })
 })
 
+router.delete('/:id', (req,res) => {
+  const { id } = req.params
+  db.deleteTask(id)
+  .then(() => {
+    res.status(200).send()
+  })
+  .catch(err => {
+    res.status(500).send(err.message)
+  })
+
+})
+
 module.exports = router

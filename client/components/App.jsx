@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AddTodo from './AddTodo'
 import { connect } from 'react-redux'
 
-import { listAllTasks } from '../actions/actions'
+import { listAllTasks, deleteExistingTask } from '../actions/actions'
 
 function App (props) {
 
@@ -12,24 +12,31 @@ function App (props) {
 
   const { tasks } = props
 
+  function handleDelete (id) {
+    props.dispatch(deleteExistingTask(id))
+    return null
+  }
+
+
+
   const listTheTasks = tasks.map(item => {
     if (item.completed) {
       return <li className="completed" key={item.id}>
           <div className="view">
-            <input className="toggle" type="checkbox" checked />
+            <input className="toggle" type="checkbox" checked readOnly/>
             <label>{item.name}</label>
-            <button className="destroy"></button>
+            <button className="destroy" onClick={() => handleDelete(item.id)}></button>
           </div>
-        <input className="edit" value="Create a TodoMVC template" />
+        <input className="edit" value="Create a TodoMVC template" readOnly/>
         </li>
     } else {
       return <li>
           <div className="view" key={item.id}>
-            <input className="toggle" type="checkbox" />
+            <input className="toggle" type="checkbox" readOnly/>
             <label>{item.name}</label>
-            <button className="destroy"></button>
+            <button className="destroy" onClick={() => handleDelete(item.id)}></button>
           </div>
-          <input className="edit" value="Rule the web" />
+          <input className="edit" value="Rule the web" readOnly />
         </li>
     }
   })
@@ -44,7 +51,7 @@ function App (props) {
       </header>
 
       <section className="main">
-        <input id="toggle-all" className="toggle-all" type="checkbox" />
+        <input id="toggle-all" className="toggle-all" type="checkbox" readOnly />
         <label>Mark all as complete</label>
         <ul className="todo-list">
           {listTheTasks}

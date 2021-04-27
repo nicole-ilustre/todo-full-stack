@@ -13,3 +13,9 @@ export function addToTasks (task) {
     .post(tasksUrl)
     .send(task)
 }
+
+export function deleteATask (id) {
+  return request
+    .delete(tasksUrl + id)
+    .then(res => res.body)
+}

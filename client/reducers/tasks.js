@@ -4,6 +4,9 @@ function tasks (state = [],action) {
     case 'GET_TASKS': 
       return action.tasks
 
+    case 'DELETE_TASK':
+      return state.filter(task => task.id !== action.id)
+
     default:
       return state
   }

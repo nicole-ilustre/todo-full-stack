@@ -1,4 +1,4 @@
-import { listTasks, addToTasks } from '../apis/apiClient'
+import { listTasks, addToTasks, deleteATask } from '../apis/apiClient'
 
 export function getTasks (tasks) {
   return {
@@ -7,10 +7,17 @@ export function getTasks (tasks) {
   }
 }
 
-export function addTask (newTask) {
+// export function addTask (newTask) {
+//   return {
+//     type: 'ADD_TASK',
+//     newTask: newTask
+//   }
+// }
+
+export function deleteTask (id) {
   return {
-    type: 'ADD_TASK',
-    newTask: newTask
+    type: 'DELETE_TASK',
+    id: id
   }
 }
 
@@ -43,6 +50,19 @@ export function addNewTask (newTask) {
     .catch(err => {
       console.log(err.message)
     })
+  }
+}
+
+export function deleteExistingTask (id) {
+  return (dispatch) => {
+    deleteATask(id)
+    .then(() => {
+      return dispatch(deleteTask(id))
+    })
+    .catch(err => {
+      console.log(err.message)
+    })
+    
   }
 }
 
