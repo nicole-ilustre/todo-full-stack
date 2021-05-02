@@ -22,7 +22,6 @@ describe('getAllTasks', () => {
         return null
       })
   })
-
 })
 
 describe('addTask', () => {
@@ -37,7 +36,6 @@ describe('addTask', () => {
         return null
       })
   })
-
 })
 
 describe('deleteTask', () => {
@@ -52,5 +50,4 @@ describe('deleteTask', () => {
         return null
       })
   })
-
 })
