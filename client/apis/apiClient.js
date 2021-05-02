@@ -17,5 +17,4 @@ export function addToTasks (task) {
 export function deleteATask (id) {
   return request
     .delete(tasksUrl + id)
-    .then(res => res.body)
 }
