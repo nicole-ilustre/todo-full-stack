@@ -13,7 +13,6 @@ beforeAll(() => testDb.migrate.latest())
 beforeEach(() => testDb.seed.run())
 
 describe('getAllTasks', () => {
-
   test('function returns an array with a length of 3', () => {
     expect.assertions(1)
     return getAllTasks(testDb)
@@ -25,7 +24,6 @@ describe('getAllTasks', () => {
 })
 
 describe('addTask', () => {
-
   test('function returns an id of the new task', () => {
     const newTaskName = 'Changing Lightbulb'
     const newTaskUrgency = 'urgent'
@@ -39,7 +37,6 @@ describe('addTask', () => {
 })
 
 describe('deleteTask', () => {
-
   test('function returns the number of tasks deleted', () => {
     const taskId = 3
     expect.assertions(2)

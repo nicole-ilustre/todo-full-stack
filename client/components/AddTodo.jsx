@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
 import { addNewTask } from '../actions/actions'
@@ -10,12 +10,12 @@ const initialTask = {
 }
 
 function AddTodo (props) {
-
   const [newTask, setTask] = useState(initialTask)
 
   function handleChange (evt) {
     evt.preventDefault()
-    setTask({...newTask,
+    setTask({
+      ...newTask,
       name: evt.target.value
     })
   }
@@ -43,4 +43,3 @@ function mapStateToProps (state) {
 }
 
 export default connect(mapStateToProps)(AddTodo)
-
