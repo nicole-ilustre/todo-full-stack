@@ -12,13 +12,14 @@ function getAllTasks (db = connection) {
 
 function addTask (name, urgency, db = connection) {
   return db('tasks').insert(
-    { name, 
-    urgency,
-    completed: false
-  })
+    {
+      name,
+      urgency,
+      completed: false
+    })
 }
 
 function deleteTask (id, db = connection) {
   return db('tasks').delete()
-  .where('id', id)
+    .where('id', id)
 }
