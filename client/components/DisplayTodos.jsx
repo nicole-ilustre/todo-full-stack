@@ -11,7 +11,7 @@ export default function DisplayTodos (props) {
   }
   return (
     <>
-      {props.todos.map((todo, i) => <div key={i}><label htmlFor={todo.todo} key={i}></label><input onClick={() => { handleUpdate(todo.id) }}name={todo.todo} type="checkbox" key={i}></input><button onClick={() => handleDelete(todo.id)}className="delete">X</button>{todo.todo}</div>)}
+      {props.todos.map((todo, i) => <div key={i}><label htmlFor={todo.todo} key={i}></label><input onClick={() => { handleUpdate(todo.id) }}name={todo.todo} type="checkbox" key={i}></input><button onClick={() => handleDelete(todo.id)} className="delete">X</button>{todo.todo}</div>)}
     </>
   )
 }
