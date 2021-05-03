@@ -1,12 +1,17 @@
 import React from 'react'
-import { deleteTodo, updateTodo } from '../apis/apiClient'
-export default function DisplayTodos (props) {
+import { connect } from 'react-redux'
+import { deleteTodoApi, updateTodoApi } from '../apis/apiClient'
+import { deleteTodo, updateTodo } from '../actions/index'
+
+function DisplayTodos (props) {
   function handleDelete (id) {
-    deleteTodo(id)
+    deleteTodoApi(id)
+    props.dispatch(deleteTodo(id))
     props.loadTodos()
   }
   function handleUpdate (id) {
-    updateTodo(id)
+    updateTodoApi(id)
+    props.dispatch(updateTodo(id))
     props.loadTodos()
   }
   return (
@@ -15,3 +20,5 @@ export default function DisplayTodos (props) {
     </>
   )
 }
+
+export default connect()(DisplayTodos)

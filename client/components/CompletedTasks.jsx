@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { getCompletedTasks } from '../apis/apiClient'
+import { getCompletedTasksApi } from '../apis/apiClient'
 
 export default function CompletedTasks () {
   const [completed, setCompleted] = useState({})
 
   useEffect(() => {
-    getCompletedTasks()
+    getCompletedTasksApi()
       .then(tasks => {
         setCompleted(tasks)
         return null

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import AddTodo from './AddTodo'
 import DisplayTodos from './DisplayTodos'
-import { getTodos } from '../apis/apiClient'
+import { getTodosApi } from '../apis/apiClient'
 
 function App () {
   const [todos, setTodos] = useState([])
 
   function loadTodos () {
-    getTodos()
+    getTodosApi()
       .then(todos => setTodos(todos))
       .catch(err => console.error(err.message))
   }

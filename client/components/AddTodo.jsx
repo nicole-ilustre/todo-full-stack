@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { addTodo } from '../apis/apiClient'
+import { connect } from 'react-redux'
+import { addTodoApi } from '../apis/apiClient'
+import { addTodo } from '../actions/index'
 
 function AddTodo (props) {
   const [todo, setTodo] = useState({})
@@ -13,7 +15,8 @@ function AddTodo (props) {
 
   function handleSubmit (e) {
     e.preventDefault()
-    addTodo(todo)
+    addTodoApi(todo)
+    props.dispatch(addTodo(todo))
     props.loadTodos()
   }
   return (
@@ -24,4 +27,4 @@ function AddTodo (props) {
   )
 }
 
-export default AddTodo
+export default connect()(AddTodo)
