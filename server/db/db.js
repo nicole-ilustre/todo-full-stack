@@ -11,7 +11,8 @@ module.exports = {
 }
 
 function getTodos (db = database) {
-  return db('todos').select('todo')
+  return db('todos').select('todo', 'id')
+    .where('completed', 0)
 }
 
 function getTodo (id, db = database) {

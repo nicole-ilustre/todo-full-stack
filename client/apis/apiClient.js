@@ -22,7 +22,7 @@ export function addTodo (todo) {
 
 export function deleteTodo (id) {
   return request
-    .delete(serverUrl + '/' + id)
+    .patch(serverUrl + '/' + id)
     .then(res => res.body)
 }
 

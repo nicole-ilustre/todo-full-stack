@@ -1,18 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import AddTodo from './AddTodo'
 import DisplayTodos from './DisplayTodos'
+import { getTodos } from '../apis/apiClient'
 
 function App () {
-  useEffect(() => {
+  const [todos, setTodos] = useState([])
 
+  function loadTodos () {
+    getTodos()
+      .then(todos => setTodos(todos))
+      .catch(err => console.error(err.message))
+  }
+  useEffect(() => {
+    loadTodos()
   }, [])
 
   return (
     <>
       <header className="header">
         <h1>todos</h1>
-        <DisplayTodos />
-        <AddTodo />
+        <AddTodo loadTodos={loadTodos}/>
+        <DisplayTodos todos={todos}
+          loadTodos={loadTodos}/>
       </header>
       <section className="main"></section>
       <footer className="footer"></footer>

@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { getTodos } from '../apis/apiClient'
-
-export default function DisplayTodos () {
-  const [todos, setTodos] = useState([])
-  useEffect(() => {
-    getTodos()
-      .then(todos => setTodos(todos))
-      .catch(err => console.error(err.message))
-  }, [])
-
+import React from 'react'
+import { deleteTodo, updateTodo } from '../apis/apiClient'
+export default function DisplayTodos (props) {
+  function handleDelete (id) {
+    deleteTodo(id)
+    props.loadTodos()
+  }
+  function handleUpdate (id) {
+    updateTodo(id)
+    props.loadTodos()
+  }
   return (
     <>
-      {todos.map((todo, i) => <li key={i}>{todo.todo}</li>)}
+      {props.todos.map((todo, i) => <div key={i}><label htmlFor={todo.todo} key={i}></label><input onClick={() => { handleUpdate(todo.id) }}name={todo.todo} type="checkbox" key={i}></input><button onClick={() => handleDelete(todo.id)}className="delete">X</button>{todo.todo}</div>)}
     </>
   )
 }
